@@ -37,6 +37,18 @@ using `fasterq-dump`.
 The downloaded SRA archive was validated using
 `vdb-validate`.
 
+## FASTQ Validation
+
+The downloaded FASTQ files were inspected using Linux command-line
+tools.
+
+### FASTQ Structure
+
+The first record of `SRR31439393_1.fastq` was inspected using:
+
+```bash
+head -n 4 ~/SRR31439393/SRR31439393_1.fastq
+
 ## Current Status
 
 - [x] Select public NGS dataset
