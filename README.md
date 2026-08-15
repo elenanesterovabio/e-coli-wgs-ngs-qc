@@ -49,6 +49,7 @@ The first record of `SRR31439393_1.fastq` was inspected using:
 ```bash
 head -n 4 ~/SRR31439393/SRR31439393_1.fastq
 
+test
 ## Current Status
 
 - [x] Select public NGS dataset
