@@ -49,7 +49,28 @@ The first record of `SRR31439393_1.fastq` was inspected using:
 ```bash
 head -n 4 ~/SRR31439393/SRR31439393_1.fastq
 
-test
+## Nucleotide Composition
+
+The nucleotide composition of the R1 FASTQ file was calculated
+using Biopython.
+
+The analysis iterated through all 1,457,207 reads and counted
+each nucleotide.
+
+The following nucleotide composition was obtained:
+
+| Nucleotide | Count | Percentage |
+
+| A | 30,915,901 | 24.38% |
+| C | 32,256,342 | 25.44% |
+| G | 32,581,456 | 25.70% |
+| T | 30,822,345 | 24.31% |
+| N | 210,491 | 0.17% |
+
+The analysis was performed using a streaming approach with
+`SeqIO.parse()`, allowing the FASTQ file to be processed
+read by read without loading the entire dataset into memory.
+
 ## Current Status
 
 - [x] Select public NGS dataset
