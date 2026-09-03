@@ -95,6 +95,7 @@ in the final analysis.
 
 Repository Structure
 
+```text
 e-coli-wgs-ngs-qc/
 │
 ├── README.md
@@ -114,6 +115,7 @@ e-coli-wgs-ngs-qc/
         ├── SRR31439393_1_fastqc.zip
         ├── SRR31439393_2_fastqc.html
         └── SRR31439393_2_fastqc.zip
+```
 
 ## Project Files
 
