@@ -44,6 +44,7 @@ FastQC analysis of R1 and R2
 Paired-end read validation
    ↓
 QC interpretation
+```
 
 ## Tools and Technologies
 
