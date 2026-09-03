@@ -1,15 +1,13 @@
-
 # NGS Quality Control and Analysis of *E. coli* WGS Data
 
 ## Overview
 
-This project demonstrates the analysis of publicly available
-Illumina whole-genome sequencing data from *Escherichia coli*
-using Python, Biopython, Linux command-line tools, and
-standard bioinformatics software.
+This project demonstrates a basic NGS quality-control workflow for
+paired-end whole-genome sequencing (WGS) data from *Escherichia coli*.
 
-The main goal is to perform quality control and basic
-characterization of paired-end FASTQ sequencing data.
+The project focuses on working with FASTQ sequencing data, performing
+custom sequence and quality analysis in Python/Biopython, using standard
+NGS quality-control software, and validating paired-end read consistency.
 
 ## Dataset
 
@@ -20,67 +18,129 @@ characterization of paired-end FASTQ sequencing data.
 - **Source:** Genomic DNA
 - **Layout:** Paired-end
 - **Number of spots:** 1,457,207
-- **Total bases:** 253.1M
 - **Reported GC content:** 50.9%
+- **Data source:** NCBI Sequence Read Archive (SRA)
 
-**Data source:** NCBI Sequence Read Archive (SRA)
+The available data consist of deposited FASTQ sequencing reads rather
+than raw sequencing-instrument output.
 
-## Data Acquisition
+## Workflow
 
-The sequencing data were downloaded from NCBI SRA
-using the SRA Toolkit.
+```text
+NCBI SRA
+   ↓
+SRA Toolkit
+   ↓
+SRA validation
+   ↓
+Paired-end FASTQ
+   ↓
+FASTQ structure validation
+   ↓
+Python / Biopython analysis
+   ↓
+FastQC analysis of R1 and R2
+   ↓
+Paired-end read validation
+   ↓
+QC interpretation
 
-The accession was downloaded using `prefetch` and
-converted from SRA format to paired-end FASTQ files
-using `fasterq-dump`.
+## Tools and Technologies
 
-The downloaded SRA archive was validated using
-`vdb-validate`.
+### Data acquisition and processing
 
-## FASTQ Validation
+- **NCBI Sequence Read Archive (SRA)** — source of the sequencing data
+- **SRA Toolkit** — `prefetch`, `fasterq-dump`, and `vdb-validate`
+- **Linux / WSL** — command-line data processing and file management
 
-The downloaded FASTQ files were inspected using Linux command-line
-tools.
+### Sequence analysis
 
-### FASTQ Structure
+- **Python** — custom FASTQ analysis
+- **Biopython** — FASTQ parsing and sequence analysis using `SeqIO`
+- **Jupyter Notebook** — interactive analysis and documentation
 
-The first record of `SRR31439393_1.fastq` was inspected using:
+### Quality control
 
-```bash
-head -n 4 ~/SRR31439393/SRR31439393_1.fastq
+- **FastQC v0.12.1** — quality assessment of R1 and R2 FASTQ files
 
-## Nucleotide Composition
+### Version control
 
-The nucleotide composition of the R1 FASTQ file was calculated
-using Biopython.
+- **Git**
 
-The analysis iterated through all 1,457,207 reads and counted
-each nucleotide.
+## Analysis
 
-The following nucleotide composition was obtained:
+The custom Python/Biopython analysis includes:
 
-| Nucleotide | Count | Percentage |
+- FASTQ structure inspection
+- nucleotide composition
+- N-content distribution across read positions
+- per-base Phred quality analysis
+- read length distribution
+- GC content calculation
+- paired-end read validation
 
-| A | 30,915,901 | 24.38% |
-| C | 32,256,342 | 25.44% |
-| G | 32,581,456 | 25.70% |
-| T | 30,822,345 | 24.31% |
-| N | 210,491 | 0.17% |
+FastQC was used independently to assess the quality of both R1 and R2
+FASTQ files.
 
-The analysis was performed using a streaming approach with
-`SeqIO.parse()`, allowing the FASTQ file to be processed
-read by read without loading the entire dataset into memory.
+The detailed interpretation of the FastQC results is provided in
+[`docs/fastqc_analysis.md`](docs/fastqc_analysis.md).
 
-## Current Status
+## Filtering and Trimming
 
-- [x] Select public NGS dataset
-- [x] Download SRA data
-- [x] Validate SRA data
-- [x] Convert SRA data to FASTQ
-- [ ] Perform FASTQ quality control
-- [ ] Analyze Phred quality scores
-- [ ] Analyze read length distribution
-- [ ] Calculate GC content
-- [ ] Perform quality filtering
-- [ ] Run FastQC
-- [ ] Summarize results
+No aggressive quality or adapter trimming was performed in this project.
+
+The decision was based on the initial QC assessment and is documented
+in the final analysis.
+
+Repository Structure
+
+e-coli-wgs-ngs-qc/
+│
+├── README.md
+│
+├── notebooks/
+│   └── e-coli-wgs-ngs-qc.ipynb
+│
+├── scripts/
+│   └── e-coli-wgs-ngs-qc.py
+│
+├── docs/
+│   └── fastqc_analysis.md
+│
+└── results/
+    └── fastqc/
+        ├── SRR31439393_1_fastqc.html
+        ├── SRR31439393_1_fastqc.zip
+        ├── SRR31439393_2_fastqc.html
+        └── SRR31439393_2_fastqc.zip
+
+## Project Files
+
+### Jupyter Notebook
+
+[`notebooks/e-coli-wgs-ngs-qc.ipynb`](notebooks/e-coli-wgs-ngs-qc.ipynb)
+
+Contains the custom Python/Biopython analysis of the FASTQ data,
+including sequence statistics, quality analysis, and paired-end
+validation.
+
+### FastQC Analysis
+
+[`docs/fastqc_analysis.md`](docs/fastqc_analysis.md)
+
+Contains the detailed interpretation and comparison of the FastQC
+results for R1 and R2.
+
+### FastQC Reports
+
+The original FastQC HTML reports and associated ZIP files are stored in
+[`results/fastqc/`](results/fastqc/).
+
+## Reproducibility
+
+The project uses publicly available sequencing data and documents the
+main steps of data acquisition, FASTQ processing, quality control, and
+analysis.
+
+The repository separates the analysis notebook, QC documentation, and
+generated FastQC results to make the workflow easy to follow.
